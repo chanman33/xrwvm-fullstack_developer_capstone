@@ -76,24 +76,36 @@ app.get('/fetchDealers/:state', async (req, res) => {
   }
 });
 
-// Express route to fetch dealer by a particular id
+
+// Express route to fetch dealer by a particular id (attempt 2)
 app.get('/fetchDealer/:id', async (req, res) => {
   try {
-    // Convert the ID parameter to an integer
-    const dealerId = parseInt(req.params.id, 10);
-
-    // Find dealership by the custom `id` field
-    const dealer = await Dealerships.findOne({ id: dealerId });
-    if (dealer) {
-      res.json(dealer);
-    } else {
-      res.status(404).json({ error: 'Dealer not found' });
-    }
+    const document = await Dealerships.find({ id: req.params.id });
+    res.json(document);
   } catch (error) {
-    console.error('Error fetching dealer by ID:', error); // Log error for debugging
-    res.status(500).json({ error: 'Error fetching dealer by ID' });
+    res.status(500).json({ error: 'Error fetching document' });
   }
 });
+
+// Express route to fetch dealer by a particular id
+// app.get('/fetchDealer/:id', async (req, res) => {
+//   try {
+//     // Convert the ID parameter to an integer
+//     const dealerId = parseInt(req.params.id, 10);
+//     // const documents = await Dealerships.find({ id: req.params.id });
+
+//     // Find dealership by the custom `id` field
+//     const dealer = await Dealerships.findOne({ id: dealerId });
+//     if (dealer) {
+//       res.json(dealer);
+//     } else {
+//       res.status(404).json({ error: 'Dealer not found' });
+//     }
+//   } catch (error) {
+//     console.error('Error fetching dealer by ID:', error); // Log error for debugging
+//     res.status(500).json({ error: 'Error fetching dealer by ID' });
+//   }
+// });
 
 
 

@@ -44,12 +44,41 @@ def analyze_review_sentiments(text):
         print("Network exception occurred")
 
 # def post_review(data_dict):
-# Add code for posting review
+# Add code for posting review with debugging statements
+import requests
+
 def post_review(data_dict):
-    request_url = backend_url+"/insert_review"
+    request_url = backend_url + "/insert_review"
+    print("Request URL:", request_url)  
+    print("Data being sent:", data_dict)  
+    
     try:
-        response = requests.post(request_url,json=data_dict)
-        print(response.json())
-        return response.json()
-    except:
-        print("Network exception occurred")
+        # Make the POST request with the provided JSON data
+        response = requests.post(request_url, json=data_dict)
+        print("Status Code:", response.status_code)
+        
+        # Check if response status code is not successful
+        if response.status_code != 200:
+            print("Error in response:", response.text)  
+            return {"status": "error", "message": response.text}
+        
+        # Try to parse the response as JSON
+        try:
+            response_data = response.json()
+            print("Response Data:", response_data)  # Print the JSON response
+            return response_data
+        except ValueError:
+            # If response isn't JSON, return the text response
+            print("Response is not JSON:", response.text)
+            return {"status": "error", "message": "Invalid JSON response", "data": response.text}
+    
+    except requests.exceptions.RequestException as e:
+        # Handle network-related errors (connection, timeout, etc.)
+        print("Network exception occurred:", e)
+        return {"status": "error", "message": str(e)}
+    except Exception as e:
+        # Catch any other unforeseen errors
+        print("Unexpected error occurred:", e)
+        return {"status": "error", "message": str(e)}
+
+
