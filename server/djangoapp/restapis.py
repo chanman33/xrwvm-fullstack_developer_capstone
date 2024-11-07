@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 backend_url = os.getenv('backend_url', default="http://localhost:3030")
-sentiment_analyzer_url = os.getenv('sentiment_analyzer_url', default="http://localhost:5050/")
+sentiment_analyzer_url = os.getenv('sentiment_analyzer_url',
+ default="http://localhost:5050/")
 
 
 # Add code for get requests to back end
@@ -63,7 +64,8 @@ def post_review(data_dict):
         except ValueError:
             # If response isn't JSON, return the text response
             print("Response is not JSON:", response.text)
-            return {"status": "error", "message": "Invalid JSON response", "data": response.text}
+            return {"status": "error", "message": "Invalid JSON response",
+             "data": response.text}
 
     except requests.exceptions.RequestException as e:
         # Handle network-related errors (connection, timeout, etc.)
