@@ -11,7 +11,6 @@ sentiment_analyzer_url = os.getenv(
 )
 
 
-
 # Add code for get requests to back end
 def get_request(endpoint, **kwargs):
     params = ""
@@ -71,7 +70,6 @@ def post_review(data_dict):
                 "message": "Invalid JSON response",
                 "data": response.text,
             }
-
 
     except requests.exceptions.RequestException as e:
         # Handle network-related errors (connection, timeout, etc.)
