@@ -69,13 +69,16 @@ def get_cars(request):
         initiate()
     car_models = CarModel.objects.select_related('car_make')
     cars = [
-        {"CarModel": car_model.name, "CarMake": car_model.car_make.name}
-        for car_model in car_models
+        {
+            "CarModel": car_model.name,
+            "CarMake": car_model.car_make.name
+        } for car_model in car_models
     ]
     return JsonResponse({"CarModels": cars})
 
 
-# Update the `get_dealerships` to render list of dealerships by default, particular state if passed
+# Update the `get_dealerships` to render list of dealerships by default,
+# particular state if passed
 def get_dealerships(request, state="All"):
     endpoint = "/fetchDealers" if state == "All" else f"/fetchDealers/{state}"
     dealerships = get_request(endpoint)
@@ -88,7 +91,9 @@ def get_dealer_reviews(request, dealer_id):
         endpoint = f"/fetchReviews/dealer/{dealer_id}"
         reviews = get_request(endpoint)
         for review_detail in reviews:
-            review_detail['sentiment'] = analyze_review_sentiments(review_detail['review']).get('sentiment', 'neutral')
+            review_detail['sentiment'] = analyze_review_sentiments(
+                review_detail['review']
+            ).get('sentiment', 'neutral')
         return JsonResponse({"status": 200, "reviews": reviews})
     return JsonResponse({"status": 400, "message": "Bad Request"})
 
