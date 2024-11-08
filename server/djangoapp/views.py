@@ -58,9 +58,13 @@ def registration(request):
             email=email
         )
         login(request, user)
-        return JsonResponse({"userName": username, "status": "Authenticated"})
+        return JsonResponse(
+            {"userName": username, "status": "Authenticated"}
+        )
     else:
-        return JsonResponse({"userName": username, "error": "Already Registered"})
+        return JsonResponse(
+            {"userName": username, "error": "Already Registered"}
+        )
 
 
 # Create a `get_cars` view to fetch car models
